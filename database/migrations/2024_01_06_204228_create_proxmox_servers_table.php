@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,6 +12,10 @@ return new class extends Migration
     {
         Schema::create('proxmox_servers', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->unique();
+            $table->ipAddress('ip_address')->unique();
+            $table->string('token_id');
+            $table->string('token_secret', 36);
             $table->timestamps();
         });
     }

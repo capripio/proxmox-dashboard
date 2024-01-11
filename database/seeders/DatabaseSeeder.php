@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ShieldSeeder::class,
             UserSeeder::class,
+            ProxmoxServerSeeder::class,
+            IPSeeder::class,
         ]);
 
     }
