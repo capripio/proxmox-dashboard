@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('templates', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('description', 500)->nullable();
+            $table->unsignedBigInteger('proxmox_server_id');
+            $table->foreign('proxmox_server_id')->references('id')->on('proxmox_servers')->onDelete('cascade');
+            $table->unsignedInteger('vm_id');
             $table->timestamps();
         });
     }

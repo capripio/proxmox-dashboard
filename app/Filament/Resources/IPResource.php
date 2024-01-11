@@ -21,7 +21,7 @@ class IPResource extends Resource
 {
     protected static ?string $model = IP::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-map-pin';
     protected static ?string $label = 'IP';
     protected static ?string $singularLabel = 'IP';
     protected static ?string $pluralLabel = 'IPs';
@@ -29,6 +29,7 @@ class IPResource extends Resource
     protected static ?string $slug = 'ips';
     protected static ?string $modelLabel = 'IP';
     protected static ?int $navigationSort = 3;
+
 
     public static function form(Form $form): Form
     {
@@ -39,9 +40,7 @@ class IPResource extends Resource
                     ->unique(IP::class, 'ip_address', ignorable: fn($record) => $record)
                     ->label('IP Address'),
                 Select::make('proxmox_server_id')
-                    ->options(
-                        ProxmoxServer::all()->pluck('name', 'id')
-                    )
+                    ->relationship('ProxmoxServer', 'name')
                     ->required()
                     ->label('Proxmox Server'),
                 Select::make('status')
@@ -58,7 +57,7 @@ class IPResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('proxmoxServer.name')
+                TextColumn::make('ProxmoxServer.name')
                     ->label('Proxmox Server')
                     ->searchable(),
                 TextColumn::make('ip_address')

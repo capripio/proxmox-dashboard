@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ProxmoxServerSeeder::class,
             IPSeeder::class,
+            TemplateSeeder::class
         ]);
 
     }
