@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('order_id');
+            $table->foreign('order_id')->references('id')->on('orders')->cascadeOnDelete();
+            $table->string('name');
+            $table->decimal('price', 10, 2)->default(0);
             $table->timestamps();
         });
     }

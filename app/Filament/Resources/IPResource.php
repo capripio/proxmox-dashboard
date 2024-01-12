@@ -40,7 +40,7 @@ class IPResource extends Resource
                     ->unique(IP::class, 'ip_address', ignorable: fn($record) => $record)
                     ->label('IP Address'),
                 Select::make('proxmox_server_id')
-                    ->relationship('ProxmoxServer', 'name')
+                    ->relationship('proxmoxServer', 'name')
                     ->required()
                     ->label('Proxmox Server'),
                 Select::make('status')
@@ -57,7 +57,7 @@ class IPResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('ProxmoxServer.name')
+                TextColumn::make('proxmoxServer.name')
                     ->label('Proxmox Server')
                     ->searchable(),
                 TextColumn::make('ip_address')

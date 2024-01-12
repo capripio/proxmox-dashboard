@@ -17,7 +17,7 @@ class IP extends Model
         'status',
     ];
 
-    function ProxmoxServer(): BelongsTo
+    function proxmoxServer(): BelongsTo
     {
         return $this->belongsTo(ProxmoxServer::class);
     }
