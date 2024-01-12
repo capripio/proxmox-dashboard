@@ -7,6 +7,7 @@ use App\Filament\Resources\ProxmoxServerResource\RelationManagers;
 use App\Models\IP;
 use App\Models\ProxmoxServer;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
@@ -33,49 +34,48 @@ class ProxmoxServerResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->autofocus()
-                    ->required()
-                    ->unique(ProxmoxServer::class, 'name', ignorable: fn($record) => $record)
-                    ->label('Name'),
-                TextInput::make('ip_address')
-                    ->required()
-                    ->ip()
-                    ->validationMessages([
-                        'ip' => 'The IP must be a valid IP address.',
-                    ])
-                    ->unique(ProxmoxServer::class, 'ip_address', ignorable: fn($record) => $record)
-                    ->label('IP Address'),
-                TextInput::make('token_id')
-                    ->required()->label('Token ID'),
-                TextInput::make('token_secret')
-                    ->mask('********-****-****-****-************')
-                    ->required()->label('Token Secret'),
-                Section::make()
-                    ->schema([
-                        Repeater::make('ips')
-                            ->label('IPs')
-                            ->relationship()
-                            ->cloneable()
-                            ->addActionLabel('Add IP')
-                            ->required()
-                            ->schema([
-                                TextInput::make('ip_address')
-                                    ->required()
-                                    ->ip()
-                                    ->unique(IP::class, 'ip_address', ignorable: fn($record) => $record)
-                                    ->label('IP Address'),
-                                Select::make('status')
-                                    ->options([
-                                        'available' => 'Available',
-                                        'unavailable' => 'Unavailable',
-                                    ])
-                                    ->required()
-                                    ->default('available')
-                                    ->label('Status'),
-                            ])
-                    ])
-                    ->columns(1)
+                Grid::make()->schema([
+                    TextInput::make('name')
+                        ->autofocus()
+                        ->required()
+                        ->unique(ProxmoxServer::class, 'name', ignorable: fn($record) => $record)
+                        ->label('Name'),
+                    TextInput::make('ip_address')
+                        ->required()
+                        ->ip()
+                        ->validationMessages([
+                            'ip' => 'The IP must be a valid IP address.',
+                        ])
+                        ->unique(ProxmoxServer::class, 'ip_address', ignorable: fn($record) => $record)
+                        ->label('IP Address'),
+                    TextInput::make('token_id')
+                        ->required()->label('Token ID'),
+                    TextInput::make('token_secret')
+                        ->mask('********-****-****-****-************')
+                        ->required()->label('Token Secret'),
+                    Repeater::make('ips')
+                        ->label('IPs')
+                        ->relationship()
+                        ->cloneable()
+                        ->addActionLabel('Add IP')
+                        ->required()
+                        ->schema([
+                            TextInput::make('ip_address')
+                                ->required()
+                                ->ip()
+                                ->unique(IP::class, 'ip_address', ignorable: fn($record) => $record)
+                                ->label('IP Address'),
+                            Select::make('status')
+                                ->options([
+                                    'available' => 'Available',
+                                    'unavailable' => 'Unavailable',
+                                ])
+                                ->required()
+                                ->default('available')
+                                ->label('Status'),
+                        ])->columnSpan('full'),
+
+                ]),
             ]);
     }
 

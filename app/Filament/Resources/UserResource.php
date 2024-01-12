@@ -6,6 +6,7 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -31,38 +32,36 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->autofocus()
-                    ->required()
-                    ->placeholder('John Doe'),
-                TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->unique(User::class, 'email')
-                    ->placeholder('placeholder@email.com'),
-                TextInput::make('password')
-                    ->password()
-                    ->required(fn(string $context): bool => $context === 'create')
-                    ->same('password_confirmation')
-                    ->dehydrateStateUsing(fn($state) => Hash::make($state))
-                    ->dehydrated(fn($state) => filled($state))
-                    ->placeholder('********'),
-                TextInput::make('password_confirmation')
-                    ->password()
-                    ->placeholder('********')->dehydrated(false),
-                Select::make('status')
-                    ->options([
-                        'active' => 'Active',
-                        'inactive' => 'In-Active',
-                    ])
-                    ->required()
-                    ->placeholder('Select Status'),
-                Section::make()
-                    ->columns(1)
+                Grid::make()
                     ->schema([
-                        KeyValue::make('meta')->addActionLabel("Add Meta"),
+                        TextInput::make('name')
+                            ->autofocus()
+                            ->required()
+                            ->placeholder('John Doe'),
+                        TextInput::make('email')
+                            ->email()
+                            ->required()
+                            ->unique(User::class, 'email')
+                            ->placeholder('placeholder@email.com'),
+                        TextInput::make('password')
+                            ->password()
+                            ->required(fn(string $context): bool => $context === 'create')
+                            ->same('password_confirmation')
+                            ->dehydrateStateUsing(fn($state) => Hash::make($state))
+                            ->dehydrated(fn($state) => filled($state))
+                            ->placeholder('********'),
+                        TextInput::make('password_confirmation')
+                            ->password()
+                            ->placeholder('********')->dehydrated(false),
+                        Select::make('status')
+                            ->options([
+                                'active' => 'Active',
+                                'inactive' => 'In-Active',
+                            ])
+                            ->required()
+                            ->placeholder('Select Status'),
+                        KeyValue::make('meta')->addActionLabel("Add Meta")->columnSpan('full'),
                     ]),
-
             ]);
     }
 
